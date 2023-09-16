@@ -1,0 +1,127 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './Components/Homepage'   
+    
+    <Router>
+      <Routes>
+        <Route> path ="/" component={HomePage}</Route>
+
+      </Routes>
+    </Router>
+
+
+    CARD
+
+    /*const poster = movie.Poster === "N/A"? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster*/
+    <div>
+        <img
+        width="200"
+        alt={`The movie titled: ${movie.Title}`}
+        src={poster}
+        />
+  </div>
+  <h2>{movie.Title}</h2>
+  <p>({movie.Year})</p>
+
+  try {
+    const response = await axios.get(`${apiUrl}/movie/${movieId}`, {
+      params: {
+        api_key: apiKey,
+        page: 1,
+      },
+    });
+    const top10Movies = response.data.results.slice(0, 10);
+    return top10Movies.map((movie) => movie.id); 
+  } catch (error) {
+    throw error;
+  }
+
+  <div className='main'>
+    <Header />
+    <div className='body'>
+      <h1>Top 10 Movies</h1>
+      <div className="movie-grid">
+        {top10Movies.map((movie) => (
+          <div className="movie-card" key={movie.id}>
+            <Link to={`/movies/${movie.id}`}>
+              <img
+                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                alt={movie.title}
+                className="movie-poster"
+              />
+              <h2 className="movie-title">{movie.title}</h2>
+              <p className="movie-release-date">Release Date: {movie.release_date}</p>
+            </Link>
+          </div>
+        ))}
+      </div>
+
+    </div>   
+  </div>
+  23%", height:"30%"
+
+  <app class="js1"></app>
+  import React, { useEffect, useState } from 'react';
+import Header from './Components/Header';
+
+export function App() {
+
+  const [top10Movies, setTop10Movies] = useState([]);
+  const fetchTop10Movies = async () => {
+    fetch("https://api.themoviedb.org/3/discover/movie?api_key=f62ee32f237ff2b7b0aeeea0d73ad3cb")
+      .then(res => res.json())
+      .then(json => setTop10Movies((json.results.slice(0, 10))));
+
+  };
+  useEffect(() => {
+    fetchTop10Movies();
+  }, []);
+  console.log(top10Movies);
+
+
+  /*useEffect(() => {
+    // Call the API function to fetch the top 10 movies
+    fetchTop10Movies()
+    .then((movies) => {
+      setTop10Movies(movies);
+    })
+      console.log(top10Movies)
+ 
+  }, []);*/
+  // Assuming dateStr is the date string from the API response
+  const dateStr = "2023-09-15"; // Example date string in "YYYY-MM-DD" format
+
+
+  // Create a Date object by parsing the date string
+  const date = new Date(dateStr);
+
+  // Extract the year from the Date object
+  const year = date.getFullYear();
+
+  console.log(year); // This will log the year (e.g., 2023) to the console
+
+
+  return (
+    <div className="App">
+      <div className='main'>
+
+        <Header />
+        <div className='body'>
+          <h3 className='featured'>Featured Movies</h3>
+          <div className='CardGrid'>
+            {top10Movies.map((movie) => (
+              <div key={movie.id} data-testid="movie-card" className='movie-card'>
+                <img style={{ width: "100%", height: "auto", marginLeft: "10px" }} src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  data-testid="movie-poster" />
+                <h4 data-testid="movie-title">{movie.title}</h4>
+                <p data-testid="movie-release-date">Release Date: {movie.release_date}</p>
+
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  );
+}
