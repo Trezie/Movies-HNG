@@ -65,7 +65,7 @@ function MovieSearchPage() {
 
   return (
     <div>
-      <h1>Movie Search</h1>
+      <h3 className='movieSearch'>Movie Search</h3>
       <MovieSearch onSearch={setQuery} />
       {loading ? (
         <p>Loading...</p>

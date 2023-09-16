@@ -27,13 +27,13 @@ function Body() {
      
             {top10Movies.map((movie)=>(
               <div key ={movie.id} data-testid="movie-card" className='movie-card'>
-                <Link to={`/movies/${movie.id}`}> 
+                <Link to={`/movies/${movie.id}`} className='link'> 
                   <img style={{width:"100%", height:"auto", marginLeft: "10px"}} src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={movie.title} 
                     data-testid="movie-poster"
                   />
-                  <h4 data-testid="movie-title">{movie.title}</h4>
-                  <p data-testid="movie-release-date">Release Date: {movie.release_date}</p>
+                  <h4 data-testid="movie-title" className='title'>{movie.title}</h4>
+                  <p data-testid="movie-release-date" className='date'>Release Date: {movie.release_date}</p>
                 </Link>  
               </div>
             ))}
