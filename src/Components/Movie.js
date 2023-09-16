@@ -1,44 +1,143 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import { useParams } from "react-router-dom";
+import { imagePath } from "../homepage/sectionTwo";
+import axios from "axios";
 
-function Movie() {
-  const { id } = useParams();
-  const [movieDetails, setMovieDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
+const ContentPage = () => {
+  const {id} = useParams();
+  const [movieDetails, setMovieDetails]= useState([]);
+  const [loading, setLoading] =useState(false);
+  const APP_ACCESS_TOKEN =process.env.REACT_APP_ACCESS_TOKEN;
 
-  useEffect(() => {
-    // Fetch movie details based on the 'id' parameter
-    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=f62ee32f237ff2b7b0aeeea0d73ad3cb`)
-      .then((response) => response.json())
-      .then((data) => {
-        setMovieDetails(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching movie details:', error);
-        setLoading(false);
-      });
-  }, [id]);
-  console.log(movieDetails)
+   const fetchMovieDetails =()=>{
+    const options = {
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/movie/${id}`,
+      params: {language: 'en-US', page: '1'},
+      headers: {
+        accept: 'application/json',
+        Authorization: APP_ACCESS_TOKEN,
+      }
+    };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+    setLoading(true)
+    axios
+    .request(options)
+    .then(function (response) {
+      setMovieDetails(response.data)
+      console.log(response.data)
+    })
+    .catch(function (error) {
+      toast('An error occured',  {position: toast.POSITION.TOP_RIGHT});
+    })
+    .finally(
+      setLoading(false)
+    )
+    
+  };
 
-  if (!movieDetails) {
-    return <p>Movie details not found.</p>;
-  }
+   useEffect(()=>{
+    fetchMovieDetails()
+  },[]);
 
   return (
-    <div>
-      <h1 data-testid="movie-title" >
-        {movieDetails.title}
-      </h1>
-      <p data-testid="movie-release-date">Release Date: {movieDetails.release_date}</p>
-      <p data-testid="movie-runtime">Runtime: {movieDetails.runtime} minutes</p>
-      <p data-testid="movie-overview">{movieDetails.overview}</p>
+    <div className="px-[5%] mt-[38px] w-full">
+      <ToastContainer />
+      <div className="relative">
+        <img className="w-full h-[600px] hover:p-2 hover:opacity-80 cursor-pointer" src={`${imagePath}${movieDetails.poster_path}`} alt="" />
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:justify-between mt-[32px] sm:items-center">
+        <div className="flex gap-[17px] items-center text-[10px] sm:text-[12px] md:text-[16px]">
+          <div className="flex gap-2">
+            <p data-testid='movie-title'>{movieDetails.original_title}</p> • 
+            <p data-testid='movie-release-date'>{movieDetails.release_date}</p> •
+            <p data-testid='movie-runtime'>PG-13 • {movieDetails.runtime}</p>
+          </div>
+           
+          <div className="flex items-center">
+            <img className="h-[13px] md:h-[18px] w-[13px] md:w-[18px]" src={star} />
+            <p className="mt-1 flex gap-1">
+              <span className="text-[#E8E8E8]">8.5</span> | 350k
+            </p>
+          </div>
+        </div>
+
+        <div className="flex gap-[5px] sm:gap-[11px] text-[10px] sm:text-[12px] md:text-[16px]">
+          <div className="text-[#B91C1C] border flex justify-center items-center py-[3px] px-[17px] border-[#F8E7EB] rounded-[15px]">
+            <p>Action</p>
+          </div>
+          <div className="text-[#B91C1C] border flex justify-center items-center py-[3px] px-[17px] border-[#F8E7EB] rounded-[15px]">
+            <p>Drama</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col sm:flex-row w-full gap-4 mt-[25px]">
+        <div>
+          <p data-testid='movie-overview' className="text-[16px] md:text-[18px] lg:text-[20px] text-[#333333]">
+            {movieDetails.overview}
+          </p>
+        </div>
+
+        <div className="text-[14px] md:text-[17px] w-full flex flex-row sm:flex-col gap-[14px]">
+          <button className="flex w-[180px] md:w-[270px] h-[42px] md:h-[55px] justify-center items-center bg-[#BE123C] rounded-[10px] text-white gap-[5px] md:gap-[10px]">
+            <img className="h-5" src={showtimes} />
+            <p>See Showtimes</p>
+          </button>
+
+          <button className="flex w-[180px] md:w-[270px] h-[42px] md:h-[55px] justify-center items-center gap-[5px] md:gap-[10px] rounded-[10px] bg-[#be123d4d] border border-[#BE123C]">
+            <img className="h-5" src={list} />
+            <p>More watch options</p>
+          </button>
+        </div>
+      </div>
+
+      <div className="flex w-full justify-between gap-4 mt-[25px] mb-[41px] lg:mb-0">
+        <div className="w-full text-[#333333] text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] flex flex-col gap-[20px] md:gap-[31px]">
+          <p>
+            Director: <span className="text-[#BE123C]">Joseph Kosinski</span>
+          </p>
+          <p>
+            Writers:{" "}
+            <span className="text-[#BE123C]">
+              {" "}
+              Jim Cash, Jack Epps Jr, Peter Craig
+            </span>
+          </p>
+          <p>
+            Starts:{" "}
+            <span className="text-[#BE123C]">
+              {" "}
+              Tom Cruise, Jennifer Connelly, Miles Teller
+            </span>
+          </p>
+
+          <div className="hidden md:flex font-semibold  border border-[#C7C7C7] h-[55px] rounded-[10px]">
+            <div className="bg-[#BE123C] text-[12px] sm:text-[14px] md:text-[16px] px-5 rounded-[10px] flex justify-center items-center">
+              <p className="text-white">Top rated movie #65</p>
+            </div>
+            <div className="flex items-center px-5">
+              <p className="text-[12px] sm:text-[14px] md:text-[16px]">Awards 9 nominations</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <img className="hover:opacity-80 cursor-pointer" src={best_movies} />
+        </div>
+      </div>
+
+      <div className="flex md:hidden font-semibold w-full border border-[#C7C7C7] h-[45px] rounded-[10px] mb-7">
+            <div className="bg-[#BE123C] text-[12px] sm:text-[14px] md:text-[16px] px-5 rounded-[10px] flex justify-center items-center">
+              <p className="text-white">Top rated movie #65</p>
+            </div>
+            <div className="flex items-center px-5">
+              <p className="text-[12px] sm:text-[14px] md:text-[16px]">Awards 9 nominations</p>
+            </div>
+          </div>
     </div>
   );
-}
-
-export default Movie;
+};
