@@ -46,16 +46,31 @@
   padding: 10px;
 
 }
+.title {
+  text-decoration: none; /* Remove underlines */
+  color: black; /* Change link color to your preferred color */
+}
+.date {
+  text-decoration: none; /* Remove underlines */
+  color: #333; 
+  margin-bottom:100px;/* Change link color to your preferred color */
+}
+.link {
+  color: inherit;
+  text-decoration: none; /* Make the link text inherit the parent's color */
+  /* Or specify your desired text color */
+  /* color: #333; */
+}
 
-@media (max-width: 480px) {
+@media (max-width: 1280px) {
   .header > img{
     width: 100%;
     height: 30vh;
   }
   .movie-card{
-    width: 40%;
+    width: 30%;
     margin-bottom: 10px; 
-    padding: 10px;
+    padding: 5px;
   
   }
   .movieSearch{
