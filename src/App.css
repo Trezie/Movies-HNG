@@ -53,7 +53,9 @@
 .date {
   text-decoration: none; /* Remove underlines */
   color: #333; 
-  margin-bottom:100px;/* Change link color to your preferred color */
+  font-size: small;
+  margin-bottom: 10px;
+
 }
 .link {
   color: inherit;
@@ -83,7 +85,8 @@
   .date {
     text-decoration: none; /* Remove underlines */
     color: #333; 
-    margin-bottom:100px;/* Change link color to your preferred color */
+    font-size: small;
+    margin-bottom: 10px;
   }
   .link {
     color: inherit;

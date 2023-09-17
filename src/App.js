@@ -10,6 +10,7 @@ import { fetchMoviesByTitle } from './Components/Api';
 import MovieSearchPage from './Components/MovieSearchPage';
 import Body from './Components/Body';
 import Homepage from './Components/Homepage';
+import ContentPage from './Components/ContentPage';
 
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
         <Routes>
           <Route index element={<Homepage />} />
           <Route path="/home" element={<Homepage />}/>
-          <Route path="/movies/:id" element={<MovieSearchPage />} />
+          <Route path="/movies/:id" element={<ContentPage />} />
         
         
         </Routes>
